@@ -2,15 +2,15 @@ import React from "react";
 
 function NavBar() {
   return (
-    <div>
-      <div>
-        <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-          <a
-            href=""
-            className="navbar-brand col-sm-3 col-md-2 mr-0 align-items-center"
-          ></a>
-        </nav>
+    <div className="w-screen h-[60px] z-10 bg-cyan-500 fixed drop-shadow-lg">
+      <div className="px-2 flex justify-between items-center w-full h-full">
+        <div>
+          <div className="flex items-center">
+            <h1 className="font-bold mr-4 sm:text-2xl">POKEDEX</h1>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
+export default NavBar;

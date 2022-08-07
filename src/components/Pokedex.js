@@ -4,31 +4,52 @@ import PokemonCard from "./PokemonCard";
 
 function Pokedex() {
   const [pokemons, setPokemons] = useState([]);
+  const [currentPageUrl, setcurrentPageUrl] = useState(
+    "https://pokeapi.co/api/v2/pokemon"
+  );
+  const [nextPageUrl, setNextPageUrl] = useState();
+  const [loading, setLoading] = useState(true);
+  const getPokemon = async () => {
+    const res = await axios.get(currentPageUrl);
+    setLoading(false);
+    setNextPageUrl(res.data.next);
+    console.log(res.data.results);
+    res.data.results.forEach(async (pokemon) => {
+      const poke = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+      );
+      setPokemons((p) => [...p, poke.data]);
+      // console.log(pokemons);
+    });
+  };
 
   useEffect(() => {
-    axios
-      .get("https://pokeapi.co/api/v2/pokemon?limit=50&offset=0")
-      .then((res) => {
-        //setPokemons(res.data.results);
-        res.data.results.forEach((pokemon) => {
-          const poke = axios.get(
-            `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
-          );
-          setPokemons((p) => [...p, poke.data]);
-        });
-      });
+    setLoading(true);
+    getPokemon();
   }, []);
-  /* useEffect(() => {
-    axios
-      .get("https://pokeapi.co/api/v2/pokemon?limit=50&offset=0")
-      .then((res) => {
-        setPokemons(res.data.results.map((p) => p.name));
-        console.log(setPokemons());
-        //const newIndex=("00"+(index+1)).slice(-3);
-        //const image=`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${newIndex}.svg`
-      });
-  }, []);*/
-  return;
+
+  if (loading) return "Loading....";
+
+  return (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10">
+        {pokemons ? (
+          pokemons.map((pokemon) => (
+            <div>
+              <PokemonCard
+                key={pokemon.index}
+                name={pokemon.name}
+                img={pokemon.sprites.other.dream_world.front_default}
+                id={pokemon.id}
+              />
+            </div>
+          ))
+        ) : (
+          <p>Loading pokemons</p>
+        )}
+      </div>
+    </>
+  );
 }
 
 export default Pokedex;
