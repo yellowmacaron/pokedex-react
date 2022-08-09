@@ -1,30 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Pokedex from "./Pokedex";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-export default function Pokemon({ id }) {
-  const TYPE_COLORS = {
-    bug: "B1C12E",
-    dark: "4F3A2D",
-    dragon: "755EDF",
-    electric: "FCBC17",
-    fairy: "F4B1F4",
-    fighting: "823551D",
-    fire: "E73B0C",
-    flying: "A3B3F7",
-    ghost: "6060B2",
-    grass: "74C236",
-    ground: "D3B357",
-    ice: "A3E7FD",
-    normal: "C8C4BC",
-    poison: "934594",
-    psychic: "ED4882",
-    rock: "B9A156",
-    steel: "B5B5C3",
-    water: "3295F6",
+export default function Pokemon({}) {
+  const params = useParams();
+  const [pokemonDetails, setPokemonDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const getPokemondata = async () => {
+    const res = await axios.get(
+      `https://pokeapi.co/api/v2/pokemon/${params.id}`
+    );
+    setPokemonDetails(res.data);
+    console.log(res.data.stats);
   };
+  useEffect(() => {
+    getPokemondata();
+    setLoading(true);
+  }, [params]);
+  const height = pokemonDetails.height / 10;
 
-  const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/${id}/`;
-  console.log(pokemonUrl);
-
-  return;
+  return (
+    <div className="w-600px h-max bg-cyan-400 m-10 p-10">
+      <div>
+        <h1>
+          {pokemonDetails &&
+            pokemonDetails.name.replace(/^./, (str) => str.toUpperCase())}
+        </h1>
+      </div>
+      <div>{<h1>Height: {height} m</h1>}</div>
+      <div>
+        {/* {pokemonDetails &&
+          pokemonDetails.types.map((t) => {
+            <h2>{t.name}</h2>;
+          })} */}
+      </div>
+      <div>
+        {pokemonDetails &&
+          pokemonDetails.stats.map((s) => (
+            <h1>
+              {s.stat.name.replace(/^./, (str) => str.toUpperCase())} :
+              {s.base_stat}
+            </h1>
+          ))}
+      </div>
+    </div>
+  );
 }

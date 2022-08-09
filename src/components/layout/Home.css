@@ -1,0 +1,22 @@
+.hero-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hero-text {
+  font-size: 100px;
+  font-weight: 600;
+  position: absolute;
+  top: 200px;
+  color: white;
+}
+.container-2 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 100px;
+}
+.container-2 h1 {
+  font-size: 50px;
+}

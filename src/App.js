@@ -4,17 +4,16 @@ import Pokedex from "./components/Pokedex";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Pokemon from "./components/Pokemon";
 import Home from "./components/Home";
-import SearchBar from "./components/SearchBar";
+import Favorites from "./components/Favorites";
 function App() {
   return (
     <Router>
       <NavBar />
-      <SearchBar />
       <Routes>
-        {/* <Route path="" element={<Home />}></Route> */}
-        <Route path="/pokedex" element={<Pokedex />}>
-          <Route path="/pokedex/:pokemonID" element={<Pokemon />} />
-        </Route>
+        <Route path="/home" element={<Home />}></Route>
+        <Route path="/pokedex" element={<Pokedex />} />
+        <Route path="/pokemon/:id" element={<Pokemon />} />
+        <Route path="/favorite" element={<Favorites />}></Route>
       </Routes>
     </Router>
   );

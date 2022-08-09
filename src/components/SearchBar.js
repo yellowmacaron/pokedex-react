@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 
-export default function SearchBar() {
+export default function SearchBar(props) {
   let [SearchBar, setSearchBar] = useState("");
   const onChange = (e) => {
     setSearchBar = e.target.value;
   };
-
-  const onClick = (e) => {
-    console.log("search");
+  const onClick = async (e) => {
+    props.getPokemon(SearchBar);
+    console.log(SearchBar);
   };
+
   return (
-    <div>
+    <div className="flex justify-center align-items-center flex-row p-4 border-cyan-400">
       <div>
-        <input placeholder="Pokemon name..." onChange={onChange} />
+        <input placeholder="Search for Pokemon" onChange={onChange} />
       </div>
       <div>
-        <button onClick={onClick}>Search</button>
+        <button onClick={onClick} bg-cyan-400>
+          Search
+        </button>
       </div>
     </div>
   );
