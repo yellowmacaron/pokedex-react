@@ -11,12 +11,17 @@
   top: 200px;
   color: white;
 }
-.container-2 {
+.hero-text img {
+  width: 500px;
+}
+.featured-container {
+  height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  margin-left: 100px;
+  align-items: center;
+  margin: 5rem 2rem;
 }
-.container-2 h1 {
-  font-size: 50px;
+.square {
+  width: 200px;
+  height: 200px;
 }
