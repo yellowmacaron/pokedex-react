@@ -11,16 +11,18 @@ function Home() {
     const id = Math.floor(Math.random() * 1000);
     setOffset(id);
   };
-  const fetchAPI = async (offset) => {
+  const fetchAPI = async () => {
     const response = await axios.get(
       `https://pokeapi.co/api/v2/pokemon/?limit=4&offset=${offset}`
     );
+
     response.data.results.forEach(async (pokemon) => {
       const pokename = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
       );
-      setRandomID((p) => [...p, pokename.data]);
+      setRandomID("?");
       console.log(pokename.data);
+      console.log(randomID);
       setLoading(false);
     });
   };
@@ -47,11 +49,11 @@ function Home() {
           <p class="text-4xl font-extrabold xs:row-start-2 xs:col-start-2 xs:self-center md:col-start-1 md:col-span-2">
             Featured Pokemon
           </p>
-          {/* <div>
-          <button className="btn" onClick={fetch}>
-            Suprise Me!
-          </button>
-        </div> */}
+          <div>
+            <button className="btn" onClick={fetch}>
+              Suprise Me!
+            </button>
+          </div>
           <div className="square bg-pink-400"></div>
           <div className="bg-sky-400 square"></div>
           <div className="bg-pink-400 square"></div>
@@ -60,17 +62,18 @@ function Home() {
           <div className="bg-sky-400 square"></div>
           <div className="bg-pink-400 square"></div>
           <div className="bg-sky-400 square"></div>
-          <div>
-            {randomID.map((poke) => {
-              <div>
-                <h1>Name: {poke.name}</h1>
-                <img
-                  src={poke.sprites.other.dream_world.front_default}
-                  alt=""
-                />
-              </div>;
-            })}
-          </div>
+          {/* <div>
+            {randomID.length &&
+              randomID.map((poke) => {
+                <div>
+                  <h1>Name: {poke.name}</h1>
+                  <img
+                    src={poke.sprites.other.dream_world.front_default}
+                    alt=""
+                  />
+                </div>;
+              })}
+          </div> */}
         </div>
       </div>
     </div>

@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
     screens: {
       sm: "640px",
@@ -14,6 +17,6 @@ module.exports = {
       xl: "1280px",
       // => @media (min-width: 1280px) { ... }
     },
-    plugins: [],
+    plugins: [require("flowbite/plugin")],
   },
 };

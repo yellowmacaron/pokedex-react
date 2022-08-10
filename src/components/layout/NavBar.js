@@ -26,6 +26,11 @@ function NavBar() {
               <h1>Favorites</h1>
             </Link>
           </div>
+          <div className="font-semibold text-[16px] block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+            <Link to={"/feedback"}>
+              <h1>Feedback</h1>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

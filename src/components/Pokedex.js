@@ -12,7 +12,6 @@ function Pokedex() {
   const [SearchBar, setSearchBar] = useState("");
   const [favorite, setFavorite] = useState([]);
 
-  const FavPoke = JSON.parse(localStorage.getItem("Fav"));
   const getPokemon = async () => {
     const res = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=20");
     setNextPageUrl(res.data.next);
@@ -41,11 +40,6 @@ function Pokedex() {
   useEffect(() => {
     setLoading(true);
     getPokemon();
-    if (FavPoke == null) {
-      setFavorite([]);
-    } else {
-      setFavorite(FavPoke);
-    }
   }, []);
 
   const searchPokemonname = async (pokemon) => {
