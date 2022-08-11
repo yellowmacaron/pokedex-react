@@ -58,7 +58,7 @@ export default function PokemonCard({
             </h3>{" "}
             <img
               src={img}
-              alt="pokemon"
+              alt={name}
               className="w-[150px] h-[150px] m-[10px] mx-auto "
             />
             <h1 className="  text-[20px] font-bold text-center pb-1">

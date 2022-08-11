@@ -6,6 +6,7 @@ import Pokemon from "./components/Pokemon";
 import Home from "./components/Home";
 import Favorites from "./components/Favorites";
 import Form from "./components/Form";
+import Footer from "./components/layout/Footer";
 function App() {
   return (
     <Router>
@@ -17,6 +18,7 @@ function App() {
         <Route path="/favorite" element={<Favorites />}></Route>
         <Route path="/feedback" element={<Form />}></Route>
       </Routes>
+      <Footer />
     </Router>
   );
 }
