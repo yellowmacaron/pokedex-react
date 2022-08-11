@@ -53,8 +53,14 @@ function Pokedex() {
   }, []);
 
   const searchPokemonname = async (pokemon) => {
-    const res = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
-    setPokemons();
+    try {
+      let res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
+      setPokemons([res.data]);
+      console.log(pokemons);
+    } catch (error) {
+      console.log(error);
+      window.alert("Pokemon is not found");
+    }
   };
   const handleSearch = (e) => {
     setSearchBar(e.target.value);
@@ -63,28 +69,35 @@ function Pokedex() {
   const onClick = async (e) => {
     const data = await searchPokemonname(SearchBar);
   };
-  function setSelectedPokemon(id) {
-    setSelected(id);
-  }
+
   //
 
   return (
     <div>
-      <div className="flex justify-center align-items-center flex-row p-4 border-cyan-400">
-        <div>
-          <input placeholder="Search for Pokemon" onChange={handleSearch} />
-        </div>
-        <div>
-          <button className="bg-cyan-400" onClick={onClick}>
-            Search
-          </button>
+      <div className="flex justify-center items-center flex-row p-4 ">
+        <div className="w-[320px] flex items-center bg-slate-100">
+          <div className="">
+            <input
+              className="bg-slate-100 p-2 "
+              placeholder="Search for Pokemon"
+              onChange={handleSearch}
+            />
+          </div>
+          <div>
+            <button
+              className="w-[100px] p-[5px] rounded-[15px] bg-cyan-400 hover:bg-sky-600 flex justify-center align-items-center font-bold text-white"
+              onClick={onClick}
+            >
+              Search
+            </button>
+          </div>
         </div>
       </div>
       <>
         <div className="ml-20 mr-20">
           {" "}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-10">
-            {pokemons ? (
+            {pokemons.length ? (
               pokemons.map((pokemon) => (
                 <div>
                   <Link key={pokemon.id} to={`/pokedex/${pokemon.id}`}></Link>
@@ -96,7 +109,6 @@ function Pokedex() {
                     id={pokemon.id}
                     types={pokemon.types.map((type) => type.type.name)}
                     setFavorite={setFavorite}
-                    setSelectedPokemon={setSelectedPokemon}
                   />
                 </div>
               ))

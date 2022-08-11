@@ -9,7 +9,6 @@ export default function Pokemon({}) {
   const params = useParams();
   console.log(params);
   const [pokemonDetails, setPokemonDetails] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [species, setSpecies] = useState(null);
   const getPokemondata = async () => {
     const res = await axios.get(
@@ -28,7 +27,6 @@ export default function Pokemon({}) {
 
   useEffect(() => {
     getPokemondata();
-    setLoading(false);
     getPokemonspecies();
   }, [params]);
 
