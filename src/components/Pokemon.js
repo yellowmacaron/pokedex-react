@@ -7,22 +7,30 @@ import TypeColor from "./Type_color";
 
 export default function Pokemon({}) {
   const params = useParams();
+  console.log(params);
   const [pokemonDetails, setPokemonDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [species, setSpecies] = useState(null);
   const getPokemondata = async () => {
     const res = await axios.get(
       `https://pokeapi.co/api/v2/pokemon/${params.id}`
     );
     setPokemonDetails(res.data);
-    console.log(res.data.stats);
   };
+
+  const getPokemonspecies = async () => {
+    const response = await axios.get(
+      `https://pokeapi.co/api/v2/pokemon-species/${params.id}/`
+    );
+    setSpecies(response.data);
+    console.log(response.data.flavor_text_entries[0].flavor_text);
+  };
+
   useEffect(() => {
     getPokemondata();
     setLoading(false);
+    getPokemonspecies();
   }, [params]);
-  // const height = pokemonDetails.height / 10;
-
-  const Progress = () => {};
 
   return (
     <>
@@ -46,8 +54,7 @@ export default function Pokemon({}) {
             <div className="">
               <div className="md:row-start-3 p-[40px]">
                 <p className="inform">
-                  A strange seed was planted on its back at birth.The plant
-                  sprouts and grows with this POKéMON.
+                  {species && species.flavor_text_entries[0].flavor_text}
                 </p>
                 <p className="inform">
                   <span className="font-bold">Height:</span>{" "}
@@ -65,19 +72,20 @@ export default function Pokemon({}) {
                     </h1>
                   ))}
                 </p>
-                <div className="inform">
+                <div className="inform ">
                   <span className="font-bold">Type:</span>
-
-                  {pokemonDetails.types.map((t) => (
-                    <h2
-                      className="p-[5px] pr-[10px] pl-[10px] rounded-[10px] border-2 border-black"
-                      style={{
-                        backgroundColor: `${TypeColor[t.type.name]}`,
-                      }}
-                    >
-                      {t.type.name.replace(/^./, (str) => str.toUpperCase())}
-                    </h2>
-                  ))}
+                  <div className="flex flex-row gap-4 pt-2">
+                    {pokemonDetails.types.map((t) => (
+                      <h2
+                        className="p-[5px] pr-[10px] pl-[10px] rounded-[10px] border-2 border-black w-[80px] text-center"
+                        style={{
+                          backgroundColor: `${TypeColor[t.type.name]}`,
+                        }}
+                      >
+                        {t.type.name.replace(/^./, (str) => str.toUpperCase())}
+                      </h2>
+                    ))}
+                  </div>
                 </div>
               </div>
               <div className="md:row-start-4 p-[40px] bg-neutral-100">

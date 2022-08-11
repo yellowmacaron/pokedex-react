@@ -7,23 +7,33 @@ import { Link, Outlet } from "react-router-dom";
 function Pokedex() {
   const [pokemons, setPokemons] = useState([]);
   const [nextPageUrl, setNextPageUrl] = useState();
-
+  const [favorite, setFavorite] = useState();
   const [loading, setLoading] = useState(true);
   const [SearchBar, setSearchBar] = useState("");
-  const [favorite, setFavorite] = useState([]);
+  const [selected, setSelected] = useState("");
 
   const getPokemon = async () => {
-    const res = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=20");
-    setNextPageUrl(res.data.next);
+    const res = await axios
+      .get("https://pokeapi.co/api/v2/pokemon?limit=20")
+      .then(function (response) {
+        setNextPageUrl(response.data.next);
 
-    //setNextPageUrl(res.data.next);
-    res.data.results.forEach(async (pokemon) => {
-      const poke = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
-      );
-      setPokemons((p) => [...p, poke.data]);
-      setLoading(false);
-    });
+        response.data.results.forEach(async (pokemon) => {
+          const poke = await axios
+            .get(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
+            .then(function (response) {
+              setPokemons((p) => [...p, response.data]);
+
+              setLoading(false);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   const nextPage = async () => {
     setLoading(true);
@@ -52,9 +62,10 @@ function Pokedex() {
 
   const onClick = async (e) => {
     const data = await searchPokemonname(SearchBar);
-    console.log(data);
   };
-
+  function setSelectedPokemon(id) {
+    setSelected(id);
+  }
   //
 
   return (
@@ -76,15 +87,16 @@ function Pokedex() {
             {pokemons ? (
               pokemons.map((pokemon) => (
                 <div>
-                  <Link to={`/pokedex/${pokemon.id}`}></Link>
+                  <Link key={pokemon.id} to={`/pokedex/${pokemon.id}`}></Link>
                   <PokemonCard
                     pokemon={pokemon.name}
-                    key={pokemon.id}
+                    key={pokemon.index}
                     name={pokemon.name}
                     img={pokemon.sprites.other.dream_world.front_default}
                     id={pokemon.id}
                     types={pokemon.types.map((type) => type.type.name)}
                     setFavorite={setFavorite}
+                    setSelectedPokemon={setSelectedPokemon}
                   />
                 </div>
               ))
@@ -102,6 +114,7 @@ function Pokedex() {
           {loading ? "Loading..." : "Load More"}
         </button>
       </div>
+      {selected != "" ? <Pokemon params={selected} /> : ""}
     </div>
   );
 }

@@ -11,7 +11,7 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/home" element={<Home />}></Route>
+        <Route path="/" element={<Home />}></Route>
         <Route path="/pokedex" element={<Pokedex />} />
         <Route path="/pokemon/:id" element={<Pokemon />} />
         <Route path="/favorite" element={<Favorites />}></Route>

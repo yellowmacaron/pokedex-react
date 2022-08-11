@@ -1,14 +1,5 @@
 {
-  "results": [
-    {
-      "name": "charmander",
-      "id": 4,
-      "types": [
-        "fire"
-      ],
-      "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/4.svg"
-    }
-  ],
+  "results": [],
   "feedbacks": [
     {
       "fullname": "dn",
